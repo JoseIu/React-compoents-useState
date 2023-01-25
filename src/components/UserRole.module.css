@@ -1,0 +1,20 @@
+.roleSpan {
+	text-align: center;
+	font-size: 0.8em;
+	padding: 0.5em;
+	text-transform: uppercase;
+	border-radius: 0.4em;
+	color: #222;
+}
+.teacher {
+	background-color: #00d8ff;
+}
+.student {
+	background-color: green;
+}
+.peet {
+	background-color: tan;
+}
+.other {
+	background-color: lightgrey;
+}
