@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import style from './UserList.module.css';
 import UserListFilters from './UserListFilters';
-import UserRow from './UserRow';
+import UserListRows from './UserListRows';
 
 const UserList = ({ initialUseres }) => {
-	const [search, setSearch] = useState('');
-	const [onlyActive, setOnlyActive] = useState(false);
-	const [sortBy, setSortBy] = useState(0);
+	const { search, onlyActive, sortBy, ...setFilterFunctions } = useFilters();
 
-	let useresFiltered = filterUsersByName(initialUseres, search);
-	useresFiltered = filterOnlyActive(useresFiltered, onlyActive);
+	const [users, setUsers] = useState(initialUseres);
+	const toggleUserActive = userID => {
+		const newUsers = [...users];
+
+		const userIndex = newUsers.findIndex(user => user.id === userID);
+
+		if (userIndex === -1) return;
+
+		newUsers[userIndex].active = !newUsers[userIndex].active;
+		setUsers(newUsers);
+	};
+
+	let useresFiltered = filterOnlyActive(users, onlyActive);
+	useresFiltered = filterUsersByName(useresFiltered, search);
 	useresFiltered = filterBySort(useresFiltered, sortBy);
-	// const useresRendered = renderUsers(useresFiltered);
 
 	// console.log(users);
 	return (
@@ -19,17 +28,48 @@ const UserList = ({ initialUseres }) => {
 			<h1 className={style.title}>Listado de usuarios</h1>
 			<UserListFilters
 				search={search}
-				setSearch={setSearch}
 				onlyActive={onlyActive}
-				setOnlyActive={setOnlyActive}
 				sortBy={sortBy}
-				setSortBy={setSortBy}
+				{...setFilterFunctions}
 			/>
-			<UserListRows users={useresFiltered} />
+			<UserListRows
+				users={useresFiltered}
+				toggleUserActive={toggleUserActive}
+			/>
 		</div>
 	);
 };
+/* custom HOOK */
+const useFilters = () => {
+	const [filters, setFilters] = useState({
+		search: '',
+		onlyActive: false,
+		sortBy: 0
+	});
+	const setSearch = search =>
+		setFilters({
+			...filters,
+			search
+		});
 
+	const setOnlyActive = onlyActive =>
+		setFilters({
+			...filters,
+			onlyActive
+		});
+	const setSortBy = sortBy =>
+		setFilters({
+			...filters,
+			sortBy
+		});
+
+	return {
+		...filters,
+		setSearch,
+		setOnlyActive,
+		setSortBy
+	};
+};
 /* Filtramos por lo que escriba */
 const filterUsersByName = (users, search) => {
 	if (!search) return [...users];
@@ -58,14 +98,6 @@ const filterBySort = (users, sortBy) => {
 		default:
 			return usersFiltered;
 	}
-};
-
-/* Renderizamos el resultado de la busqueda */
-const UserListRows = ({ users }) => {
-	/* Comprovamos si existe usuarios, si lo hay lo pintamos */
-	if (users <= 0) return <p>NO hay usuario</p>;
-
-	return users.map(user => <UserRow key={user.name} {...user} />);
 };
 
 export default UserList;
