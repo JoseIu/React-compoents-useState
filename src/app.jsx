@@ -53,6 +53,6 @@ const USERS = [
 	}
 ];
 
-const App = () => <UserList users={USERS}></UserList>;
+const App = () => <UserList initialUseres={USERS}></UserList>;
 
 export default App;
