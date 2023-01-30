@@ -7,9 +7,7 @@
 	margin-bottom: 1em;
 }
 .search {
-	/* width: 20em; */
-	display: block;
-	padding: 0.5em;
+	border: 1px solid #333;
 }
 .active {
 	display: flex;

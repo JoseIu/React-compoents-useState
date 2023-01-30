@@ -11,12 +11,13 @@ module.exports = {
 	extends: [
 		'plugin:react/recommended',
 		'plugin:react/jsx-runtime',
-		'plugin:react-hooks/recommended',
 		'standard',
 		'eslint-config-prettier'
 	],
-	overrides: [],
 	parserOptions: {
+		ecmaFeatures: {
+			jsx: true
+		},
 		ecmaVersion: 'latest',
 		sourceType: 'module'
 	},
