@@ -1,17 +1,25 @@
 .form {
+	/* background-color: yellowgreen; */
+	margin-bottom: 3em;
+}
+.row {
+	/* background-color: blueviolet; */
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	flex-wrap: wrap;
-	gap: 2em;
-	margin-bottom: 1em;
+	justify-content: space-between;
+	margin-bottom: 1.5em;
 }
 .search {
+	/* background-color: lightgray; */
 	border: 1px solid #333;
 }
 .active {
+	/* background-color: violet; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	column-gap: 0.3em;
+	column-gap: 0.7em;
+}
+.select {
+	background-color: azure;
 }

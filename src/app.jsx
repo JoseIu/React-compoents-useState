@@ -4,7 +4,7 @@ const USERS = [
 	{
 		username: 'jose',
 		name: 'Joselu',
-		active: true,
+		active: false,
 		role: 'teacher'
 	},
 	{
@@ -16,8 +16,8 @@ const USERS = [
 	{
 		username: 'vicent',
 		name: 'Vincent',
-		active: false,
-		role: 'teacher'
+		active: true,
+		role: 'other'
 	}
 ];
 

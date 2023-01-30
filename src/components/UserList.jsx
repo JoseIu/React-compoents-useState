@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { SORT_OPTIONS } from '../constants/sortOptions';
+import { USER_ROLES } from '../constants/userRoles';
 import style from './UserList.module.css';
 import UserListFilters from './UserListFilters';
 import UserListRows from './UserListRows';
@@ -32,7 +34,7 @@ const useFilters = () => {
 	const [filters, setFilters] = useState({
 		search: '',
 		onlyActive: false,
-		sortBy: 0
+		sortBy: SORT_OPTIONS.DEFAULT
 	});
 	const setSearch = search =>
 		setFilters({
@@ -40,11 +42,20 @@ const useFilters = () => {
 			search
 		});
 
-	const setOnlyActive = onlyActive =>
-		setFilters({
-			...filters,
-			onlyActive
-		});
+	const setOnlyActive = onlyActive => {
+		/* si esta activado onlyActives ponemos por defecto en el select*/
+		if (onlyActive && filters.sortBy === SORT_OPTIONS.ACTIVE)
+			setFilters({
+				...filters,
+				sortBy: SORT_OPTIONS.DEFAULT,
+				onlyActive
+			});
+		else
+			setFilters({
+				...filters,
+				onlyActive
+			});
+	};
 	const setSortBy = sortBy =>
 		setFilters({
 			...filters,
@@ -69,7 +80,7 @@ const filterUsersByName = (users, search) => {
 	const normalizedSearch = search.toLowerCase();
 
 	return users.filter(user =>
-		user.name.toLowerCase().startsWith(normalizedSearch)
+		user.name.toLowerCase().includes(normalizedSearch)
 	);
 };
 /* Filtramos solo activos */
@@ -82,11 +93,25 @@ const filterOnlyActive = (users, search) => {
 const filterBySort = (users, sortBy) => {
 	const usersFiltered = [...users];
 	switch (sortBy) {
-		case 1:
+		case SORT_OPTIONS.NAME:
 			return usersFiltered.sort((a, b) => {
 				if (a.name > b.name) return 1;
 				if (a.name < b.name) return -1;
 				return 0;
+			});
+		case SORT_OPTIONS.ROLE:
+			return usersFiltered.sort((a, b) => {
+				if (a.role === b.role) return 0;
+				if (a.role === USER_ROLES.TEACHER) return -1;
+				if (a.role === USER_ROLES.STUDENT && b.role === USER_ROLES.OTHER)
+					return -1;
+				return 1;
+			});
+		case SORT_OPTIONS.ACTIVE:
+			return usersFiltered.sort((a, b) => {
+				if (a.active === b.active) return 0;
+				if (a.active && !b.active) return -1;
+				return 1;
 			});
 		default:
 			return usersFiltered;

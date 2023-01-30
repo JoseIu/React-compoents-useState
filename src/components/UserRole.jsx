@@ -1,11 +1,11 @@
+import { USER_ROLES } from '../constants/userRoles';
 import style from './UserRole.module.css';
 
 /* asignamos los coleres a cada rol */
 const ROLE_STYLES = {
-	teacher: ['Profesor', style.teacher],
-	student: ['Alumno', style.student],
-	peet: ['Mascota', style.peet],
-	other: ['otro', style.other]
+	[USER_ROLES.TEACHER]: ['Profesor', style.teacher],
+	[USER_ROLES.STUDENT]: ['Alumno', style.student],
+	[USER_ROLES.OTHER]: ['otro', style.other]
 };
 const UserRole = ({ role }) => {
 	/* destructuring de ROLE_STYLES */
