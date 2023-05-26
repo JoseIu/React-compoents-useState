@@ -8,8 +8,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"format": "prettier --write .",
-		"lint": "eslint . --ext .js,.jsx --fix",
-		"deploy": "gh-pages -d dist"
+		"lint": "eslint . --ext .js,.jsx --fix"
 	},
 	"dependencies": {
 		"gh-pages": "^5.0.0",
